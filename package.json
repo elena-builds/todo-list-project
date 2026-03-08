@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -13,12 +14,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/elena-builds/todo-list-project/issues"
   },
   "homepage": "https://github.com/elena-builds/todo-list-project#readme",
   "devDependencies": {
+    "css-loader": "^7.1.4",
+    "style-loader": "^4.0.0",
     "webpack": "^5.105.4",
     "webpack-cli": "^6.0.1"
   }
