@@ -32,4 +32,26 @@ function getCurrentProject() {
   return currentProject;
 }
 
-export { projects, addTodo, addProject, setCurrentProject, getCurrentProject };
+function toggleTodoCompleted(todoId) {
+  const todo = currentProject.todos.find((todo) => todo.id === todoId);
+
+  if (todo) {
+    todo.completed = !todo.completed;
+  }
+}
+
+function deleteTodo(todoId) {
+  currentProject.todos = currentProject.todos.filter(
+    (todo) => todo.id !== todoId,
+  );
+}
+
+export {
+  projects,
+  addTodo,
+  addProject,
+  setCurrentProject,
+  getCurrentProject,
+  toggleTodoCompleted,
+  deleteTodo,
+};

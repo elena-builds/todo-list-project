@@ -3,6 +3,8 @@ import {
   setCurrentProject,
   getCurrentProject,
   addTodo,
+  toggleTodoCompleted,
+  deleteTodo,
 } from "./app.js";
 
 function setupTodoForm() {
@@ -57,9 +59,31 @@ function renderTodos() {
     const priority = document.createElement("p");
     priority.textContent = `priority: ${todo.priority}`;
 
+    const status = document.createElement("p");
+    status.textContent = todo.completed ? "Completed" : "Not completed";
+
+    const completeButton = document.createElement("button");
+    completeButton.textContent = "Toggle Complete";
+
+    completeButton.addEventListener("click", () => {
+      toggleTodoCompleted(todo.id);
+      renderTodos();
+    });
+
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+
+    deleteButton.addEventListener("click", () => {
+      deleteTodo(todo.id);
+      renderTodos();
+    });
+
     todoCard.appendChild(title);
     todoCard.appendChild(dueDate);
     todoCard.appendChild(priority);
+    todoCard.appendChild(status);
+    todoCard.appendChild(completeButton);
+    todoCard.appendChild(deleteButton);
 
     todoList.appendChild(todoCard);
   });
