@@ -1,21 +1,32 @@
 import { createProject } from "./project.js";
 import { createTodo } from "./todo.js";
+import { saveProjects, loadProjects } from "./storage.js";
 
-const projects = [];
+const storedProjects = loadProjects();
 
-const defaultProject = createProject("Default");
-projects.push(defaultProject);
+const projects = storedProjects || [];
 
-let currentProject = defaultProject;
+if (projects.length === 0) {
+  const defaultProject = createProject("Default");
+  projects.push(defaultProject);
+}
+
+let currentProject = projects[0];
+
+function saveApp() {
+  saveProjects(projects);
+}
 
 function addTodo(title, description, dueDate, priority) {
   const todo = createTodo(title, description, dueDate, priority);
   currentProject.todos.push(todo);
+  saveApp();
 }
 
 function addProject(name) {
   const project = createProject(name);
   projects.push(project);
+  saveApp();
 }
 
 function setCurrentProject(projectName) {
@@ -37,6 +48,7 @@ function toggleTodoCompleted(todoId) {
 
   if (todo) {
     todo.completed = !todo.completed;
+    saveApp();
   }
 }
 
@@ -44,6 +56,7 @@ function deleteTodo(todoId) {
   currentProject.todos = currentProject.todos.filter(
     (todo) => todo.id !== todoId,
   );
+  saveApp();
 }
 
 export {
