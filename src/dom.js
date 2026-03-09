@@ -3,6 +3,7 @@ import {
   setCurrentProject,
   getCurrentProject,
   addTodo,
+  addProject,
   toggleTodoCompleted,
   deleteTodo,
 } from "./app.js";
@@ -89,9 +90,26 @@ function renderTodos() {
   });
 }
 
+function setupProjectForm() {
+  const form = document.querySelector("#project-form");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const projectNameInput = document.querySelector("#project-name");
+    const projectName = projectNameInput.value;
+
+    addProject(projectName);
+
+    form.reset();
+    renderProjects();
+  });
+}
+
 function renderApp() {
   renderProjects();
   renderTodos();
   setupTodoForm();
+  setupProjectForm();
 }
 export { renderApp };
