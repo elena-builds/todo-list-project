@@ -1,4 +1,27 @@
-import { projects, setCurrentProject, getCurrentProject } from "./app.js";
+import {
+  projects,
+  setCurrentProject,
+  getCurrentProject,
+  addTodo,
+} from "./app.js";
+
+function setupTodoForm() {
+  const form = document.querySelector("#todo-form");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const title = document.querySelector("#todo-title").value;
+    const desc = document.querySelector("#todo-desc").value;
+    const date = document.querySelector("#todo-date").value;
+    const priority = document.querySelector("#todo-priority").value;
+
+    addTodo(title, desc, date, priority);
+
+    form.reset();
+    renderTodos();
+  });
+}
 
 function renderProjects() {
   const projectList = document.querySelector("#project-list");
@@ -45,5 +68,6 @@ function renderTodos() {
 function renderApp() {
   renderProjects();
   renderTodos();
+  setupTodoForm();
 }
 export { renderApp };

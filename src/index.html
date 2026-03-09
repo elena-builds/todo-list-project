@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Todo List</title>
   </head>
   <body>
@@ -10,9 +11,25 @@
 
     <div id="app">
       <div id="project-list"></div>
-      <div id="todo-list"></div>
-    </div>
 
+      <div id="todo-section">
+        <h2>Todos</h2>
+
+        <form id="todo-form">
+          <input id="todo-title" placeholder="Title" required />
+          <input id="todo-desc" placeholder="Description" />
+          <input id="todo-date" type="date" />
+          <select id="todo-priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+
+          <button type="submit">Add Todo</button>
+        </form>
+        <div id="todo-list"></div>
+      </div>
+    </div>
     <script src="../dist/main.js"></script>
   </body>
 </html>
