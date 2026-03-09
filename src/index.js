@@ -1,8 +1,22 @@
 import "./style.css";
-import { addTodo } from "./app.js";
-import { renderTodos } from "./dom.js";
+import { addTodo, addProject, setCurrentProject } from "./app.js";
+import { renderApp } from "./dom.js";
 
-addTodo("Study JS", "Finish todo project", "2026-03-10", "high");
-addTodo("Do laundry", "Wash clothes tonight", "2026-03-11", "low");
+addProject("Work");
+addProject("Study");
 
-renderTodos();
+addTodo("Buy groceries", "Milk and eggs", "2026-03-10", "medium");
+
+setCurrentProject("Work");
+addTodo("Finish report", "Complete monthly report", "2026-03-11", "high");
+
+setCurrentProject("Study");
+addTodo(
+  "Read JavaScript notes",
+  "Review modules and webpack",
+  "2026-03-12",
+  "low",
+);
+
+setCurrentProject("Default");
+renderApp();

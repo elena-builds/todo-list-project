@@ -12,4 +12,24 @@ function addTodo(title, description, dueDate, priority) {
   const todo = createTodo(title, description, dueDate, priority);
   currentProject.todos.push(todo);
 }
-export { projects, currentProject, addTodo };
+
+function addProject(name) {
+  const project = createProject(name);
+  projects.push(project);
+}
+
+function setCurrentProject(projectName) {
+  const selectedProject = projects.find(
+    (project) => project.name === projectName,
+  );
+
+  if (selectedProject) {
+    currentProject = selectedProject;
+  }
+}
+
+function getCurrentProject() {
+  return currentProject;
+}
+
+export { projects, addTodo, addProject, setCurrentProject, getCurrentProject };

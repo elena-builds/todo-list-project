@@ -1,9 +1,25 @@
-import { currentProject } from "./app.js";
+import { projects, setCurrentProject, getCurrentProject } from "./app.js";
+
+function renderProjects() {
+  const projectList = document.querySelector("#project-list");
+  projectList.textContent = "";
+
+  projects.forEach((project) => {
+    const projectButton = document.createElement("button");
+    projectButton.textContent = project.name;
+
+    projectButton.addEventListener("click", () => {
+      setCurrentProject(project.name);
+      renderTodos();
+    });
+    projectList.appendChild(projectButton);
+  });
+}
 
 function renderTodos() {
   const todoList = document.querySelector("#todo-list");
   todoList.textContent = "";
-
+  const currentProject = getCurrentProject();
   const todos = currentProject.todos;
 
   todos.forEach((todo) => {
@@ -26,4 +42,8 @@ function renderTodos() {
   });
 }
 
-export { renderTodos };
+function renderApp() {
+  renderProjects();
+  renderTodos();
+}
+export { renderApp };
