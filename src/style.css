@@ -1,3 +1,87 @@
 body {
-  font-family: sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 24px;
+  background-color: #f7f7f7;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+#app {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+#project-list-section,
+#todo-section {
+  background-color: white;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+#project-list-section {
+  width: 250px;
+}
+
+#todo-section {
+  flex: 1;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input,
+select,
+button {
+  padding: 8px;
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+#project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.todo-card {
+  border: 1px solid #ddd;
+  border-left: 6px solid gray;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+.priority-high {
+  border-left-color: #e63946;
+}
+.priority-medium {
+  border-left-color: #f4a261;
+}
+.priority-low {
+  border-left-color: #2a9d8f;
+}
+.completed {
+  opacity: 0.65;
+}
+.completed h3 {
+  text-decoration: line-through;
+}
+#todo-details {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
 }

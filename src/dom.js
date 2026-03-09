@@ -54,11 +54,21 @@ function renderTodos() {
   const currentProject = getCurrentProject();
   const todos = currentProject.todos;
 
+  if (todos.length === 0) {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.textContent = "No todos in this project yet.";
+    todoList.appendChild(emptyMessage);
+    return;
+  }
+
   todos.forEach((todo) => {
     const todoCard = document.createElement("div");
 
     const title = document.createElement("h3");
     title.textContent = todo.title;
+    if (todo.completed) {
+      title.textContent = `${todo.title} ✅`;
+    }
 
     const dueDate = document.createElement("p");
     dueDate.textContent = `Due: ${todo.dueDate}`;
@@ -106,6 +116,18 @@ function renderTodos() {
       selectedTodoId = todo.id;
       renderTodoDetails();
     });
+
+    todoCard.classList.add("todo-card");
+    if (todo.priority === "high") {
+      todoCard.classList.add("priority-high");
+    } else if (todo.priority === "medium") {
+      todoCard.classList.add("priority-medium");
+    } else {
+      todoCard.classList.add("priority-low");
+    }
+    if (todo.completed) {
+      todoCard.classList.add("completed");
+    }
   });
 }
 
@@ -118,7 +140,12 @@ function setupProjectForm() {
     const projectNameInput = document.querySelector("#project-name");
     const projectName = projectNameInput.value;
 
-    addProject(projectName);
+    const wasAdded = addProject(projectName);
+
+    if (!wasAdded) {
+      alert("Project name is empty or already exists.");
+      return;
+    }
 
     form.reset();
     renderProjects();

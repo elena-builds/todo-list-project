@@ -24,9 +24,23 @@ function addTodo(title, description, dueDate, priority) {
 }
 
 function addProject(name) {
-  const project = createProject(name);
+  const trimmedName = name.trim();
+
+  if (!trimmedName) {
+    return false;
+  }
+  const alreadyExists = projects.some(
+    (project) => project.name.toLowerCase() === trimmedName.toLowerCase(),
+  );
+
+  if (alreadyExists) {
+    return false;
+  }
+
+  const project = createProject(trimmedName);
   projects.push(project);
   saveApp();
+  return true;
 }
 
 function setCurrentProject(projectName) {
