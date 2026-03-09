@@ -59,6 +59,18 @@ function deleteTodo(todoId) {
   saveApp();
 }
 
+function updateTodo(todoId, updatedData) {
+  const todo = currentProject.todos.find((todo) => todo.id === todoId);
+
+  if (todo) {
+    todo.title = updatedData.title;
+    todo.description = updatedData.description;
+    todo.dueDate = updatedData.dueDate;
+    todo.priority = updatedData.priority;
+    saveApp();
+  }
+}
+
 export {
   projects,
   addTodo,
@@ -67,4 +79,5 @@ export {
   getCurrentProject,
   toggleTodoCompleted,
   deleteTodo,
+  updateTodo,
 };

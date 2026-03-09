@@ -6,7 +6,10 @@ import {
   addProject,
   toggleTodoCompleted,
   deleteTodo,
+  updateTodo,
 } from "./app.js";
+
+let selectedTodoId = null;
 
 function setupTodoForm() {
   const form = document.querySelector("#todo-form");
@@ -23,6 +26,7 @@ function setupTodoForm() {
 
     form.reset();
     renderTodos();
+    renderTodoDetails();
   });
 }
 
@@ -36,7 +40,9 @@ function renderProjects() {
 
     projectButton.addEventListener("click", () => {
       setCurrentProject(project.name);
+      selectedTodoId = null;
       renderTodos();
+      renderTodoDetails();
     });
     projectList.appendChild(projectButton);
   });
@@ -66,17 +72,25 @@ function renderTodos() {
     const completeButton = document.createElement("button");
     completeButton.textContent = "Toggle Complete";
 
-    completeButton.addEventListener("click", () => {
+    completeButton.addEventListener("click", (e) => {
+      e.stopPropagation();
       toggleTodoCompleted(todo.id);
       renderTodos();
+      renderTodoDetails();
     });
 
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
 
-    deleteButton.addEventListener("click", () => {
+    deleteButton.addEventListener("click", (e) => {
+      e.stopPropagation();
       deleteTodo(todo.id);
+
+      if (selectedTodoId === todo.id) {
+        selectedTodoId = null;
+      }
       renderTodos();
+      renderTodoDetails();
     });
 
     todoCard.appendChild(title);
@@ -87,6 +101,11 @@ function renderTodos() {
     todoCard.appendChild(deleteButton);
 
     todoList.appendChild(todoCard);
+
+    todoCard.addEventListener("click", () => {
+      selectedTodoId = todo.id;
+      renderTodoDetails();
+    });
   });
 }
 
@@ -106,9 +125,85 @@ function setupProjectForm() {
   });
 }
 
+function renderTodoDetails() {
+  const detailsContainer = document.querySelector("#todo-details");
+  detailsContainer.textContent = "";
+
+  if (!selectedTodoId) {
+    return;
+  }
+
+  const currentProject = getCurrentProject();
+  const todo = currentProject.todos.find((todo) => todo.id === selectedTodoId);
+
+  if (!todo) {
+    return;
+  }
+
+  const heading = document.createElement("h2");
+  heading.textContent = "Todo Details";
+
+  const form = document.createElement("form");
+
+  const titleInput = document.createElement("input");
+  titleInput.value = todo.title;
+  titleInput.required = true;
+
+  const descInput = document.createElement("input");
+  descInput.value = todo.description;
+
+  const dateInput = document.createElement("input");
+  dateInput.type = "date";
+  dateInput.value = todo.dueDate;
+
+  const prioritySelect = document.createElement("select");
+
+  const lowOption = document.createElement("option");
+  lowOption.value = "low";
+  lowOption.textContent = "Low";
+
+  const mediumOption = document.createElement("option");
+  mediumOption.value = "medium";
+  mediumOption.textContent = "Medium";
+
+  const highOption = document.createElement("option");
+  highOption.value = "high";
+  highOption.textContent = "High";
+
+  prioritySelect.appendChild(lowOption);
+  prioritySelect.appendChild(mediumOption);
+  prioritySelect.appendChild(highOption);
+  prioritySelect.value = todo.priority;
+
+  const saveButton = document.createElement("button");
+  saveButton.type = "submit";
+  saveButton.textContent = "Save Changes";
+
+  form.appendChild(titleInput);
+  form.appendChild(descInput);
+  form.appendChild(dateInput);
+  form.appendChild(prioritySelect);
+  form.appendChild(saveButton);
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    updateTodo(todo.id, {
+      title: titleInput.value,
+      description: descInput.value,
+      dueDate: dateInput.value,
+      priority: prioritySelect.value,
+    });
+    renderTodos();
+    renderTodoDetails();
+  });
+  detailsContainer.appendChild(heading);
+  detailsContainer.appendChild(form);
+}
+
 function renderApp() {
   renderProjects();
   renderTodos();
+  renderTodoDetails();
   setupTodoForm();
   setupProjectForm();
 }
